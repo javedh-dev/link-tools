@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --hot --open --mode development --config webpack.config.js",
-    "build": "webpack --progress --mode production --config webpack.config.js"
+    "start": "webpack serve --mode=development",
+    "build": "webpack --progress --mode production"
   },
   "dependencies": {
     "react": "^18.2.0",
