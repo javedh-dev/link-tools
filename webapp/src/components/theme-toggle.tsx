@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Switch } from "@/components/ui/switch";
 
 const ThemeToggle = () => {
   const [theme, setTheme] = useState<string>();
@@ -36,12 +37,7 @@ const ThemeToggle = () => {
 
   return (
     <div className="mt-5">
-      <button
-        className="rounded bg-slate-600 text-white px-2 py-1"
-        onClick={toggleMode}
-      >
-        Toggle
-      </button>
+      <Switch onClick={toggleMode} />
     </div>
   );
 };

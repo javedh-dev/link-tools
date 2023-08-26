@@ -1,5 +1,5 @@
-import "./App.scss";
-import ThemeToggle from "./components/theme-toggle";
+import ThemeToggle from "@/components/theme-toggle";
+import "./app.scss";
 
 const App = () => {
   return (
