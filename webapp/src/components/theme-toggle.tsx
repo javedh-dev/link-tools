@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
+import { Moon, Sun } from "lucide-react";
 
 const ThemeToggle = () => {
   const [theme, setTheme] = useState<string>();
@@ -36,8 +37,10 @@ const ThemeToggle = () => {
   };
 
   return (
-    <div className="mt-5">
-      <Switch onClick={toggleMode} />
+    <div className="flex flex-row items-center gap-2">
+      <Sun />
+      <Switch onClick={toggleMode} checked={theme == "dark"} />
+      <Moon />
     </div>
   );
 };
