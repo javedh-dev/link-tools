@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.scss";
-import logo from "./logo.svg";
+import logo from "../public/logo.svg";
 
 const App = () => {
 	return (
 		<div className='app'>
 			<img src={logo} className='App-logo' alt='logo' />
-			<h1>React Coding Kata!!!</h1>
+			<h1 className="title bg-slate-300">React Coding Kata!!!</h1>
 			<h4>Author - Javed Hussain</h4>
 			<p>
 				This project is setup using <span>React</span>, <span>Typescript</span>,{" "}
