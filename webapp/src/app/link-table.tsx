@@ -122,7 +122,10 @@ const LinkTable = ({}: LinkTableProps) => {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow
+                key={headerGroup.id}
+                className="bg-secondary hover:bg-secondary"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
