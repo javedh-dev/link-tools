@@ -4,3 +4,8 @@ export type RedirectLink = {
   url: string;
   enabled: boolean;
 };
+
+export type NewLink = {
+  slug: string;
+  url: string;
+};

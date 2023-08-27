@@ -4,8 +4,9 @@ const path = require("path");
 
 module.exports = {
   entry: "./src/index.tsx",
+  devtool: "inline-source-map",
   output: {
-    filename: "bundle.[hash].js",
+    filename: "bundle.[fullhash].js",
     path: path.resolve(__dirname, "dist"),
   },
   plugins: [
@@ -13,7 +14,7 @@ module.exports = {
       template: "./public/index.html",
     }),
     new MiniCssExtractPlugin({
-      filename: "bundle.[hash].css",
+      filename: "bundle.[fullhash].css",
     }),
   ],
   resolve: {
