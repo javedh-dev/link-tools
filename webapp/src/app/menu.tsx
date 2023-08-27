@@ -14,6 +14,8 @@ const AppMenu = ({ table }: AppMenuProps) => {
   );
 
   useEffect(() => {
+    console.count("Changing filter : ");
+
     table.getColumn("slug")?.setFilterValue(filterValue);
   }, [filterValue]);
 
