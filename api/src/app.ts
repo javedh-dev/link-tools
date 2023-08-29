@@ -15,6 +15,19 @@ app.get('/', async(_, res) => {
     res.send(links);
 });
 
+app.get('/:slug', async(req, res) => {
+    const slug = String(req.params.slug)
+    const link = await db.redirectLink.findFirstOrThrow({
+        where: {
+            slug: slug,
+            enabled: true
+        }
+    }).catch(()=>{
+        res.status(404).send()
+    });
+    res.send(link);
+});
+
 app.post("/",async(req,res)=>{
     const link = await db.redirectLink.create({
         data: req.body
@@ -43,6 +56,5 @@ app.delete("/:id",async(req,res)=>{
 })
  
 app.listen(port, () => {
-    console.log(`TypeScript with Express
-         http://localhost:${port}/`);
+    console.log(`Server is running on - http://localhost:${port}/`);
 });
