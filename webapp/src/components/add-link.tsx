@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusCircle } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { NewLink } from "./model/link";
+import { NewLink, RedirectLink } from "./model/link";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -19,15 +19,26 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRedirectLinks } from "@/hooks/useRedirectLinks";
+
+type AddNewLinkProps = {
+  addLink: (newLink: NewLink) => Promise<any>;
+  updateLink: (newLink: RedirectLink) => Promise<any>;
+  dialogOpen: boolean;
+  setDialogOpen: (state: boolean) => void;
+  setLink: (state: RedirectLink | undefined) => void;
+  link?: RedirectLink;
+};
 
 const AddNewLink = ({
   addLink,
-}: {
-  addLink: (newLink: NewLink) => Promise<any>;
-}) => {
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  link,
+  setLink,
+  dialogOpen,
+  setDialogOpen,
+  updateLink,
+}: AddNewLinkProps) => {
   const formSchema = z.object({
     slug: z.string().min(2, {
       message: "Slug must be at least 2 characters.",
@@ -44,11 +55,30 @@ const AddNewLink = ({
       url: "https://",
     },
   });
+
+  useEffect(() => {
+    if (link?.slug) form.setValue("slug", link.slug);
+    if (link?.url) form.setValue("url", link.url);
+  }, [link]);
+
   const onSubmit: SubmitHandler<NewLink> = (data) => {
-    addLink(data).then(() => {
-      setDialogOpen(false);
-      form.reset();
-    });
+    if (!link) {
+      addLink(data).then(() => {
+        form.reset();
+        setDialogOpen(false);
+      });
+    } else {
+      updateLink({
+        id: link.id,
+        enabled: link.enabled,
+        slug: data.slug,
+        url: data.url,
+      }).then(() => {
+        setLink(undefined);
+        form.reset();
+        setDialogOpen(false);
+      });
+    }
   };
 
   return (

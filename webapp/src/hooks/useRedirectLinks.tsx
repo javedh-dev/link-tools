@@ -25,6 +25,15 @@ export const useRedirectLinks = () => {
     console.log(data);
   };
 
+  const updateLink = async (updatedLink: RedirectLink) => {
+    const res = await axios.put<RedirectLink>(
+      "http://localhost:3001",
+      updatedLink
+    );
+    fetchLinks();
+    console.log(data);
+  };
+
   const deleteLink = async (id: string) => {
     const res = await axios.delete<RedirectLink>(`http://localhost:3001/${id}`);
     fetchLinks();
@@ -35,5 +44,5 @@ export const useRedirectLinks = () => {
     fetchLinks();
   }, []);
 
-  return { loading, data, error, fetchLinks, addLink, deleteLink };
+  return { loading, data, error, fetchLinks, addLink, deleteLink, updateLink };
 };

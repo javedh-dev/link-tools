@@ -22,6 +22,16 @@ app.post("/",async(req,res)=>{
     res.send(link)
 })
 
+app.put("/",async(req,res)=>{
+    const link = await db.redirectLink.update({
+        data: req.body,
+        where: {
+            id: req.body.id
+        }
+    })
+    res.send(link)
+})
+
 app.delete("/:id",async(req,res)=>{
     const numId = Number(req.params.id)
     const link = await db.redirectLink.delete({

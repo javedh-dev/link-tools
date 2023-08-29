@@ -6,10 +6,23 @@ import { useEffect, useState } from "react";
 
 type AppMenuProps = {
   table: Table<RedirectLink>;
+  dialogOpen: boolean;
+  setDialogOpen: (state: boolean) => void;
+  link?: RedirectLink;
+  setLink: (state: RedirectLink | undefined) => void;
   addLink: (newLink: NewLink) => Promise<any>;
+  updateLink: (newLink: RedirectLink) => Promise<any>;
 };
 
-const AppMenu = ({ table, addLink }: AppMenuProps) => {
+const AppMenu = ({
+  table,
+  addLink,
+  dialogOpen,
+  setDialogOpen,
+  link,
+  setLink,
+  updateLink,
+}: AppMenuProps) => {
   const [filterValue, setFilterValue] = useState(
     (table.getColumn("slug")?.getFilterValue() as string) ?? ""
   );
@@ -26,7 +39,14 @@ const AppMenu = ({ table, addLink }: AppMenuProps) => {
         value={filterValue}
         onChange={(event) => setFilterValue(event.target.value)}
       />
-      <AddNewLink addLink={addLink} />
+      <AddNewLink
+        addLink={addLink}
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        link={link}
+        setLink={setLink}
+        updateLink={updateLink}
+      />
     </div>
   );
 };

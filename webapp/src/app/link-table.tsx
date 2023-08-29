@@ -24,21 +24,34 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { useRedirectLinks } from "@/hooks/useRedirectLinks";
 
-type LinkTableProps = {};
+type RowActionProps = {
+  row: Row<RedirectLink>;
+  setLink: (link: RedirectLink) => void;
+  setDialogOpen: (state: boolean) => void;
+  deleteLink: (id: string) => Promise<any>;
+};
 
 const RowAction = ({
   row,
   deleteLink,
-}: {
-  row: Row<RedirectLink>;
-  deleteLink: (id: string) => Promise<any>;
-}) => {
+  setLink,
+  setDialogOpen,
+}: RowActionProps) => {
   return (
     <div className=" flex flex-row gap-4 justify-end">
       <Button
         variant={"ghost"}
         size={"icon"}
         className="text-slate-400 hover:text-emerald-600"
+        onClick={() => {
+          setLink({
+            id: row.getValue("id"),
+            enabled: row.getValue("enabled"),
+            slug: row.getValue("slug"),
+            url: row.getValue("url"),
+          });
+          setDialogOpen(true);
+        }}
       >
         <LucideEdit size={18} />
       </Button>
@@ -56,13 +69,24 @@ const RowAction = ({
   );
 };
 
-const LinkTable = ({}: LinkTableProps) => {
+const LinkTable = () => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const { loading, data, addLink, deleteLink } = useRedirectLinks();
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [link, setLink] = useState<RedirectLink | undefined>();
+  const { loading, data, addLink, deleteLink, updateLink } = useRedirectLinks();
 
   useEffect(() => {
     console.log("Data is updated");
   }, [data]);
+
+  const toggleEnable = (row: Row<RedirectLink>) => {
+    updateLink({
+      id: row.getValue("id"),
+      enabled: !row.getValue("enabled"),
+      slug: row.getValue("slug"),
+      url: row.getValue("url"),
+    });
+  };
 
   const columns: ColumnDef<RedirectLink>[] = [
     {
@@ -87,7 +111,10 @@ const LinkTable = ({}: LinkTableProps) => {
       cell: ({ row }) => {
         return (
           <div>
-            <Switch checked={row.getValue("enabled")} onClick={() => {}} />
+            <Switch
+              checked={row.getValue("enabled")}
+              onClick={() => toggleEnable(row)}
+            />
           </div>
         );
       },
@@ -96,7 +123,14 @@ const LinkTable = ({}: LinkTableProps) => {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        return <RowAction row={row} deleteLink={deleteLink} />;
+        return (
+          <RowAction
+            row={row}
+            deleteLink={deleteLink}
+            setLink={setLink}
+            setDialogOpen={setDialogOpen}
+          />
+        );
       },
     },
   ];
@@ -117,7 +151,15 @@ const LinkTable = ({}: LinkTableProps) => {
 
   return (
     <>
-      <AppMenu table={table} addLink={addLink} />
+      <AppMenu
+        table={table}
+        addLink={addLink}
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        link={link}
+        setLink={setLink}
+        updateLink={updateLink}
+      />
       <div className="rounded-md border w-5/6">
         <Table>
           <TableHeader>
