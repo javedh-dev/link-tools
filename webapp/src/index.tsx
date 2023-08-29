@@ -1,4 +1,5 @@
 import App from "@/app";
+import axios from "axios";
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import {
@@ -6,20 +7,18 @@ import {
   Navigate,
   redirect,
   RouterProvider,
-  useParams,
-  useRoutes,
 } from "react-router-dom";
-import "./index.scss";
-import Redirector from "./components/redirector";
-import axios from "axios";
 import { RedirectLink } from "./components/model/link";
+import "./index.scss";
+
+const apiUrl = process.env.API_URL;
 
 const router = createBrowserRouter([
   {
     path: "/:slug",
     loader: async ({ params }) => {
       const { data } = await axios.get<RedirectLink>(
-        `http://localhost:3001/${params.slug}`
+        `${apiUrl}/${params.slug}`
       );
       console.log(data);
       return redirect(data.url);
