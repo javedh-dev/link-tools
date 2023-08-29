@@ -20,8 +20,13 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { useState } from "react";
+import { useRedirectLinks } from "@/hooks/useRedirectLinks";
 
-const AddNewLink = () => {
+const AddNewLink = ({
+  addLink,
+}: {
+  addLink: (newLink: NewLink) => Promise<any>;
+}) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const formSchema = z.object({
     slug: z.string().min(2, {
@@ -40,9 +45,10 @@ const AddNewLink = () => {
     },
   });
   const onSubmit: SubmitHandler<NewLink> = (data) => {
-    setDialogOpen(false);
-    console.log(data);
-    form.reset();
+    addLink(data).then(() => {
+      setDialogOpen(false);
+      form.reset();
+    });
   };
 
   return (

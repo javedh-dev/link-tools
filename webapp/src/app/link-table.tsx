@@ -22,13 +22,17 @@ import AppMenu from "./menu";
 import { useEffect, useMemo, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { useRedirectLinks } from "@/hooks/useRedirectLinks";
 
 type LinkTableProps = {};
 
-const RowAction = ({ row }: { row: Row<RedirectLink> }) => {
-  useEffect(() => {
-    console.count("Component Rendered ");
-  }, []);
+const RowAction = ({
+  row,
+  deleteLink,
+}: {
+  row: Row<RedirectLink>;
+  deleteLink: (id: string) => Promise<any>;
+}) => {
   return (
     <div className=" flex flex-row gap-4 justify-end">
       <Button
@@ -42,6 +46,9 @@ const RowAction = ({ row }: { row: Row<RedirectLink> }) => {
         variant={"ghost"}
         size={"icon"}
         className="text-slate-400 hover:text-rose-600"
+        onClick={() => {
+          deleteLink(row.getValue("id"));
+        }}
       >
         <Trash2 size={18} />
       </Button>
@@ -51,6 +58,12 @@ const RowAction = ({ row }: { row: Row<RedirectLink> }) => {
 
 const LinkTable = ({}: LinkTableProps) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const { loading, data, addLink, deleteLink } = useRedirectLinks();
+
+  useEffect(() => {
+    console.log("Data is updated");
+  }, [data]);
+
   const columns: ColumnDef<RedirectLink>[] = [
     {
       id: "id",
@@ -83,28 +96,15 @@ const LinkTable = ({}: LinkTableProps) => {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        return <RowAction row={row} />;
+        return <RowAction row={row} deleteLink={deleteLink} />;
       },
     },
   ];
   const table = useReactTable<RedirectLink>({
-    data: useMemo(
-      () => [
-        {
-          id: 1,
-          slug: "test-1",
-          url: "https://test.com",
-          enabled: true,
-        },
-        {
-          id: 2,
-          slug: "test-2",
-          url: "https://test.com",
-          enabled: true,
-        },
-      ],
-      []
-    ),
+    data: useMemo(() => {
+      console.log("Updated Data rerendering");
+      return data ? data : [];
+    }, [data]),
     columns,
     getCoreRowModel: getCoreRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -117,7 +117,7 @@ const LinkTable = ({}: LinkTableProps) => {
 
   return (
     <>
-      <AppMenu table={table} />
+      <AppMenu table={table} addLink={addLink} />
       <div className="rounded-md border w-5/6">
         <Table>
           <TableHeader>
@@ -161,13 +161,19 @@ const LinkTable = ({}: LinkTableProps) => {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  <p className="flex flex-row items-center justify-center gap-2">
-                    Click on
-                    <span className="flex flex-row items-center gap-2 rounded px-2 py-1 border">
-                      <PlusCircle size={18} /> New
-                    </span>{" "}
-                    to add new link redirection.
-                  </p>
+                  {loading ? (
+                    <p className="flex flex-row items-center justify-center gap-2">
+                      Loading...
+                    </p>
+                  ) : (
+                    <p className="flex flex-row items-center justify-center gap-2">
+                      Click on
+                      <span className="flex flex-row items-center gap-2 rounded px-2 py-1 border">
+                        <PlusCircle size={18} /> New
+                      </span>{" "}
+                      to add new link redirection.
+                    </p>
+                  )}
                 </TableCell>
               </TableRow>
             )}

@@ -1,21 +1,20 @@
 import AddNewLink from "@/components/add-link";
-import { RedirectLink } from "@/components/model/link";
+import { NewLink, RedirectLink } from "@/components/model/link";
 import { Input } from "@/components/ui/input";
 import { Table } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 
 type AppMenuProps = {
   table: Table<RedirectLink>;
+  addLink: (newLink: NewLink) => Promise<any>;
 };
 
-const AppMenu = ({ table }: AppMenuProps) => {
+const AppMenu = ({ table, addLink }: AppMenuProps) => {
   const [filterValue, setFilterValue] = useState(
     (table.getColumn("slug")?.getFilterValue() as string) ?? ""
   );
 
   useEffect(() => {
-    console.count("Changing filter : ");
-
     table.getColumn("slug")?.setFilterValue(filterValue);
   }, [filterValue]);
 
@@ -27,7 +26,7 @@ const AppMenu = ({ table }: AppMenuProps) => {
         value={filterValue}
         onChange={(event) => setFilterValue(event.target.value)}
       />
-      <AddNewLink />
+      <AddNewLink addLink={addLink} />
     </div>
   );
 };

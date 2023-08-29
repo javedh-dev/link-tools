@@ -1,3 +1,4 @@
+import { useRedirectLinks } from "@/hooks/useRedirectLinks";
 import AppHeader from "./header";
 import LinkTable from "./link-table";
 
