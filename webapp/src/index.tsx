@@ -10,15 +10,14 @@ import {
 } from "react-router-dom";
 import { RedirectLink } from "./components/model/link";
 import "./index.scss";
-
-const apiUrl = process.env.API_URL;
+import { API_URL } from "@public/config.json";
 
 const router = createBrowserRouter([
   {
     path: "/:slug",
     loader: async ({ params }) => {
       const { data } = await axios.get<RedirectLink>(
-        `${apiUrl}/${params.slug}`
+        `${API_URL}/${params.slug}`
       );
       console.log(data);
       return redirect(data.url);
