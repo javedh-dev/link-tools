@@ -10,6 +10,8 @@ export const useRedirectLinks = () => {
 
   const fetchLinks = () => {
     setLoading(true);
+    console.log("URL : ", apiUrl);
+
     axios
       .get<RedirectLink[]>(apiUrl)
       .then((res) => setData(res.data))

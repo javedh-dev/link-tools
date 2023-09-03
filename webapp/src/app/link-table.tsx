@@ -76,7 +76,7 @@ const LinkTable = () => {
   const { loading, data, addLink, deleteLink, updateLink } = useRedirectLinks();
 
   useEffect(() => {
-    console.log("Data is updated");
+    console.log("Data is updated", data);
   }, [data]);
 
   const toggleEnable = (row: Row<RedirectLink>) => {

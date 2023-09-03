@@ -1,9 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
-const webpack = require("webpack");
-const dotenv = require("dotenv").config({ path: __dirname + "/.env" });
-const isDevelopment = process.env.NODE_ENV !== "production";
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -13,17 +11,14 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   plugins: [
+    new Dotenv({
+      path: "./.env",
+    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
     new MiniCssExtractPlugin({
       filename: "bundle.[fullhash].css",
-    }),
-    new webpack.DefinePlugin({
-      "process.env": JSON.stringify(dotenv.parsed),
-      "process.env.NODE_ENV": JSON.stringify(
-        isDevelopment ? "development" : "production"
-      ),
     }),
   ].filter(Boolean),
   resolve: {

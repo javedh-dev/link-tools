@@ -1,7 +1,7 @@
 FROM node:lts-alpine as build
 WORKDIR /usr/app
 COPY . /usr/app
-RUN yarn install --frozen-lockfile
+RUN yarn install
 RUN yarn run build
 
 FROM nginx:alpine
