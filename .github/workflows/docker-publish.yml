@@ -48,7 +48,7 @@ jobs:
           context: ./api
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}/api
+          labels: ${{ github.repository }}/api
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Sign the published Docker image
@@ -94,7 +94,7 @@ jobs:
           context: ./webapp
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}/wpa
+          labels: ${{ github.repository }}/wpa
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Sign the published Docker image
