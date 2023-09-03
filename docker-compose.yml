@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web:
+    image: "ghcr.io/javedh-dev/link-tools/web:latest"
+    build: ./webapp
+    environment:
+      - API_URL=/api
+    networks:
+      - link-tools
+  api:
+    image: "ghcr.io/javedh-dev/link-tools/api:latest"
+    build: ./api
+    networks:
+      - link-tools
+  proxy:
+    image: "ghcr.io/javedh-dev/link-tools/proxy:latest"
+    build: .
+    networks:
+      - link-tools
+    ports:
+      - "80:80"
+networks:
+  link-tools:
+    driver: bridge

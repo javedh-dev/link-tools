@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     path: "/:slug",
     loader: async ({ params }) => {
       const { data } = await axios.get<RedirectLink>(
-        `${API_URL}/${params.slug}`
+        `${API_URL}${params.slug}`
       );
       console.log(data);
       return redirect(data.url);

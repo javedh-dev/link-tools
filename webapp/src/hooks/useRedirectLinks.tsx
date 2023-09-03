@@ -32,7 +32,7 @@ export const useRedirectLinks = () => {
   };
 
   const deleteLink = async (id: string) => {
-    const res = await axios.delete<RedirectLink>(`${API_URL}/${id}`);
+    const res = await axios.delete<RedirectLink>(`${API_URL}${id}`);
     fetchLinks();
     console.log(data);
   };
