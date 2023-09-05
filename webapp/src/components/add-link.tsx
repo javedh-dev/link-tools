@@ -88,7 +88,7 @@ const AddNewLink = ({
           <PlusCircle size={18} /> New
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] w-11/12 rounded-md">
         <DialogHeader className="text-2xl font-bold border-b-4 border-rose-600">
           <div>
             <span className="text-rose-600">Add</span> Link

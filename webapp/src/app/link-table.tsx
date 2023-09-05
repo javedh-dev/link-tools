@@ -160,7 +160,7 @@ const LinkTable = () => {
         setLink={setLink}
         updateLink={updateLink}
       />
-      <div className="rounded-md border w-5/6">
+      <div className="rounded-b-md border lg:w-5/6 w-11/12">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -170,7 +170,7 @@ const LinkTable = () => {
               >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="">
                       {header.isPlaceholder
                         ? null
                         : flexRender(

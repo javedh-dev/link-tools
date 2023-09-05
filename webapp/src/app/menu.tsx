@@ -32,7 +32,7 @@ const AppMenu = ({
   }, [filterValue]);
 
   return (
-    <div className=" flex flex-row w-5/6 gap-8 justify-between">
+    <div className=" flex flex-row lg:w-5/6 w-11/12 gap-8 justify-between">
       <Input
         className="max-w-sm"
         placeholder="Start typing to filter the urls..."

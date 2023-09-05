@@ -4,6 +4,7 @@ services:
   web:
     image: "ghcr.io/javedh-dev/link-tools/web:latest"
     build: ./webapp
+    restart: unless-stopped
     environment:
       - API_URL=/api
     networks:
@@ -11,11 +12,15 @@ services:
   api:
     image: "ghcr.io/javedh-dev/link-tools/api:latest"
     build: ./api
+    restart: unless-stopped
+    volumes:
+      - db:/app/db
     networks:
       - link-tools
   proxy:
     image: "ghcr.io/javedh-dev/link-tools/proxy:latest"
     build: .
+    restart: unless-stopped
     networks:
       - link-tools
     ports:
@@ -23,3 +28,6 @@ services:
 networks:
   link-tools:
     driver: bridge
+
+volumes:
+  db:
