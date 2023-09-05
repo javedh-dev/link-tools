@@ -23,6 +23,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { useRedirectLinks } from "@/hooks/useRedirectLinks";
+import { Link } from "react-router-dom";
 
 type RowActionProps = {
   row: Row<RedirectLink>;
@@ -103,6 +104,17 @@ const LinkTable = () => {
       id: "url",
       accessorKey: "url",
       header: "Redirect Url",
+      cell: ({ row }) => {
+        return (
+          <Link
+            to={row.getValue("url")}
+            replace
+            className="text-lime-700 underline underline-offset-4"
+          >
+            {row.getValue("url")}
+          </Link>
+        );
+      },
     },
     {
       id: "enabled",
@@ -161,7 +173,7 @@ const LinkTable = () => {
         updateLink={updateLink}
       />
       <div className="rounded-b-md border lg:w-5/6 w-11/12">
-        <Table>
+        <Table className=" text-lg">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
