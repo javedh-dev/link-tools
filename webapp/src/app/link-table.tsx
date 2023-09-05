@@ -109,7 +109,7 @@ const LinkTable = () => {
           <Link
             to={row.getValue("url")}
             replace
-            className="text-lime-700 underline underline-offset-4"
+            className="text-rose-600 underline underline-offset-4"
           >
             {row.getValue("url")}
           </Link>
